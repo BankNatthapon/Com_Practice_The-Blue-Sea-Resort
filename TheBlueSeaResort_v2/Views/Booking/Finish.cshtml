@@ -1,0 +1,195 @@
+﻿@model TheBlueSeaResort_v2.Models.Customer
+@using TheBlueSeaResort_v2.Views.BarCode;
+@using TheBlueSeaResort_v2.Helpers
+
+@{
+    ViewBag.Title = "Finish";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var navListItems = $('div.setup-panel div a'),
+            allWells = $('.setup-content'),
+            allNextBtn = $('.nextBtn');
+
+        allWells.hide();
+
+        navListItems.click(function (e) {
+            e.preventDefault();
+            var $target = $($(this).attr('href')),
+                $item = $(this);
+
+            if (!$item.hasClass('disabled')) {
+                navListItems.removeClass('btn-primary').addClass('btn-default');
+                $item.addClass('btn-primary');
+                allWells.hide();
+                $target.show();
+                $target.find('input:eq(0)').focus();
+            }
+        });
+
+        allNextBtn.click(function () {
+            var curStep = $(this).closest(".setup-content"),
+                curStepBtn = curStep.attr("id"),
+                nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+                curInputs = curStep.find("input[type='text'],input[type='url']"),
+                isValid = true;
+
+            $(".form-group").removeClass("has-error");
+            for (var i = 0; i < curInputs.length; i++) {
+                if (!curInputs[i].validity.valid) {
+                    isValid = false;
+                    $(curInputs[i]).closest(".form-group").addClass("has-error");
+                }
+            }
+
+            if (isValid)
+                nextStepWizard.removeAttr('disabled').trigger('click');
+        });
+
+        $('div.setup-panel div a.btn-primary').trigger('click');
+    });
+</script>
+<style type="text/css">
+    body {
+        margin-top: 40px;
+    }
+
+    .stepwizard-step p {
+        margin-top: 10px;
+    }
+
+    .stepwizard-row {
+        display: table-row;
+    }
+
+    .stepwizard {
+        display: table;
+        width: 100%;
+        position: relative;
+    }
+
+    .stepwizard-step button[disabled] {
+        opacity: 1 !important;
+        filter: alpha(opacity=100) !important;
+    }
+
+    .stepwizard-row:before {
+        top: 14px;
+        bottom: 0;
+        position: absolute;
+        content: " ";
+        width: 100%;
+        height: 1px;
+        background-color: #ccc;
+        z-order: 0;
+    }
+
+    .stepwizard-step {
+        display: table-cell;
+        text-align: center;
+        position: relative;
+    }
+
+    .btn-circle {
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        padding: 6px 0;
+        font-size: 12px;
+        line-height: 1.428571429;
+        border-radius: 15px;
+    }
+</style>
+<style>
+    
+    td, th {
+        width:200px;
+        text-align: left;
+        padding: 8px;
+    }
+
+</style>
+<img src="~/Content/Images/large_1.jpg" width="1400" height="400" style="width: 100%;
+    height: auto;">
+<br>
+<br>
+<div class="container">
+    <div class="alert alert-success">
+        <strong>Success!</strong> You have already booked.
+    </div>
+   
+    
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div style="text-align:center"><span >รายการจองห้องพัก</span></div>
+            <div class="col-md-6 col-sm-offset-1" style="text-align:center"><img src="~/Content/Images/logo/Logo.png"><br>@Html.GenerateQrCode(Model.SerialCode.ToString())</div>
+            <div class="col-md-offset-8"><h3>@Html.DisplayNameFor(model => model.SerialCode)</h3></div>
+            @{
+                var a = IDAtomationBarCode.BarcodeImageGenerator(Model.SerialCode.ToString()); <img src = "@Url.Content(a)"
+                alt = "Alternate Text"
+                width = "300"
+                height = "70"/>
+                }  
+            <div class="col-md-offset-8"><h1>@Html.DisplayFor(model => model.SerialCode)</h1></div>
+            <div class="col-md-5 col-md-offset-1">
+                <div class="panel panel-default">
+                    <div class="panel-heading">ข้อมูลผู้จอง</div>
+                    <div class="panel-body">
+                        <table>
+                            <tr>
+                                <td><label>Name :</label></td>
+                                <td>@Html.DisplayFor(model => model.Name)</td>                   
+                            </tr>
+                            <tr>
+                                <td><label>Email :</label></td>
+                                <td>@Html.DisplayFor(model => model.Email)</td> 
+                            </tr>
+                            <tr>
+                                <td><label>Phone Number :</label></td>
+                                <td>@Html.DisplayFor(model => model.Phone)</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="panel panel-default">
+                    <div class="panel-heading">ข้อมูลการจอง</div>
+                    <div class="panel-body">
+                        <table>
+                            <tr>
+                                <td><label>Check in :</label></td>
+                                <td>@Html.DisplayFor(model => model.CheckIn)</td>
+                            </tr>
+                            <tr>
+                                <td><label>Check out :</label></td>
+                                <td>@Html.DisplayFor(model => model.CheckOut)</td>
+                            </tr>
+                            <tr>
+                                <td><label>Room Type :</label></td>
+                                <td>@Html.DisplayFor(model => model.RoomType)</td>
+                            </tr>
+                            <tr>
+                                <td><label>Price :</label></td>
+                                <td>@Html.DisplayFor(model => model.Price) ฿</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-10 col-md-offset-1">
+                <div class="panel panel-default">
+                    <div class="panel-heading">ช่องทางการชำระเงิน</div>
+                    <div class="panel-body">
+                        <img src="~/Content/Images/LogoSeven/7.png" width="50" height="50" /> <label>ท่านสามารถชำระเงินผ่านเคาน์เตอร์เซอร์วิสได้ที่ 7-Eleven โดยใช้ SerialCode ที่ท่านได้รับและจะมีค่าธรรมเนียม 35 บาท</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-10 col-md-offset-1" style="text-align:center"><a href="/Home/Index">Home</a></div>
+            
+        </div>
+        </div>
+    </div>
+

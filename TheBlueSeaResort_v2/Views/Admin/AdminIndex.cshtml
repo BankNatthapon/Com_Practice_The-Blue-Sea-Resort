@@ -1,0 +1,249 @@
+﻿@model IEnumerable<TheBlueSeaResort_v2.Models.Admin>
+
+@{
+    ViewBag.Title = "AdminIndex";
+}
+<link rel="stylesheet" href="~/Content/datatable/css/dataTables.bootstrap4.css" charset="utf-8">
+<script type="text/javascript" src="~/Content/datatable/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="~/Content/datatable/js/dataTables.bootstrap.js"></script>
+<!--Script-->
+<script>
+    $(document).ready(function () {
+        $('.datatable').dataTable({
+           
+        });
+
+        $('.edit-admin').click(function () {
+            //get data from edit
+            var id = $(this).attr('data-id');
+            var firstname = $(this).attr('data-firstname');
+            var lastname = $(this).attr('data-lastname');
+            var password = $(this).attr('data-password');
+            var status = $(this).attr('data-status');
+            var email = $(this).attr('data-email');
+            //set value to modal
+            $('#id').val(id);
+            $('#firstname').val(firstname);
+            $('#lastname').val(lastname);
+            $('#password').val(password);
+            $('#status').val(status);
+            $('#email').val(email);
+            //open modal
+            $('#formEdit').modal('show')
+        });
+
+        $('.delete-admin').click(function () {
+            //get data from delete
+            var id = $(this).attr('data-id');
+            var firstname = $(this).attr('data-firstname');
+            var lastname = $(this).attr('data-lastname');
+            var status = $(this).attr('data-status');
+            var email = $(this).attr('data-email');
+            //set value to modal
+            $('#id1').val(id);
+            $('#id2').html(id);
+            $('#firstname2').html(firstname);
+            $('#lastname2').html(lastname);
+            $('#status2').html(status);
+            $('#email2').html(email);
+            //open modal
+            $('#formDelete').modal('show')
+        });
+    });
+</script>
+<!-- ------------------- Sidebar ------------------- -->
+<div style="margin-top:50px">
+    <div class="w3-sidebar w3-bar-block w3-light-grey w3-card-4 w3-animate-left" style="width:20%">
+        <div class="w3-bar w3-dark-grey">
+            <span class="w3-bar-item w3-padding-24">Content</span>
+        </div>
+        <div class="w3-bar-block ">
+            <button type="button" class="w3-bar-item w3-button w3-border-bottom w3-hover-teal w3-padding-16">
+                @Html.ActionLink("Customer Management", "Index")
+            </button>
+            @if (Session["Status"].ToString() == "admin")
+            {
+                <button type="button" class="w3-bar-item w3-button w3-border-bottom w3-hover-teal w3-padding-16">
+                    @Html.ActionLink("Admin Management", "AdminIndex")
+                </button>
+                <button type="button" class="w3-bar-item w3-button w3-border-bottom w3-hover-teal w3-padding-16">
+                    @Html.ActionLink("Room Management", "RoomTypeIndex")
+                </button>
+            }
+        </div>
+    </div>
+</div>
+<!-- ----------------------------------------------- -->
+<div style="margin-left:20%">
+    <div class="w3-container w3-teal">
+        <h1>Admin Management</h1>
+    </div>
+
+    <div class="w3-container">
+
+        <br>
+        <table class="table datatable">
+            <thead>
+                <tr class="w3-light-grey">
+                    <th>AdminID</th>
+                    <th>FirstName</th>
+                    <th>Lastname</th>
+                    <th>LastLogin</th>
+                    <th>Status</th>
+
+                    <th>Editor</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.AdminID)</td>
+                        <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.LastLogin)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Status)</td>
+
+                        <td>
+                            <div class="dropdown">
+                                <button type="button" name="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-cog"></i>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="#" class="edit-admin"
+                                             data-id="@Html.DisplayFor(modelItem => item.AdminID)"
+                                             data-firstname="@Html.DisplayFor(modelItem => item.FirstName)"
+                                             data-lastname="@Html.DisplayFor(modelItem => item.LastName)"
+                                             data-password="@Html.DisplayFor(modelItem => item.Password)"
+                                             data-status="@Html.DisplayFor(modelItem => item.Status)"
+                                             data-email="@Html.DisplayFor(modalItem => item.Email)"
+                                             
+                                           
+                                           > Edit
+                                        </a>
+                                    </li>
+                                    <li><a href="#" class="delete-admin"
+                                             data-id="@Html.DisplayFor(modelItem => item.AdminID)"
+                                             data-firstname="@Html.DisplayFor(modelItem => item.FirstName)"
+                                             data-lastname="@Html.DisplayFor(modelItem => item.LastName)"
+                                             data-password="@Html.DisplayFor(modelItem => item.Password)"
+                                             data-status="@Html.DisplayFor(modelItem => item.Status)"
+                                             data-email="@Html.DisplayFor(modalItem => item.Email)"
+                                           >Delete</a></li>
+                                </ul>
+                            </div><!-- /.dropdown -->
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- ----------------------------------------------- -->
+<!-- Modal Zone -->
+<div class="modal fade" id="formEdit">
+    <div class="modal-dialog">
+        <form action="/Admin/AdminEdit" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Edit</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- Hidden Zone -->
+                    <input type="hidden" name="id" id="id" value="">
+                    <div class="form-group ">
+                        <label for="firstname" class="control-label">Firstname</label>
+                        <input type="text" id="firstname" name="firstname" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastname" class="control-label">Lastname</label>
+                        <input type="text" id="lastname" name="lastname" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="control-label">E-mail</label>
+                        <input type="email" id="email" name="email" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="control-label">Password</label>
+                        <input type="password" id="password" name="password" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="status" class="control-label">Status</label>
+                        <input type="text" id="status" name="status" class="form-control">
+                    </div>
+
+
+                </div><!--/.modal-body-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        Close
+                    </button>
+                    <input type="submit" class="btn btn-primary" value="Save">
+                </div><!--/.modal-footer-->
+            </div><!-- /.modal-content -->
+        </form>
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--Delete-->
+<!-- Modal Zone -->
+<div class="modal fade" id="formDelete">
+    <div class="modal-dialog">
+        <form action="/Admin/AdminDelete" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Delete</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- Hidden Zone -->
+                    <input type="hidden" name="id1" id="id1" value="">
+                    <div class="form-group">
+                        <label for="id" class="control-label">AdminID : </label>
+                        <label id="id2" name="id2" class="control-label"></label>
+                    </div>
+
+
+                    <div class="form-group ">
+                        <label for="firstname" class="control-label">Firstname : </label>
+                        <label id="firstname2" name="firstname2" class="control-label"></label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastname" class="control-label">Lastname : </label>
+                        <label id="lastname2" name="lastname2" class="control-label"></label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="control-label">E-mail : </label>
+                        <label id="email2" name="email2" class="control-label"></label>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="status" class="control-label">Status : </label>
+                        <label id="status2" name="status2" class="control-label"></label>
+                    </div>
+
+
+                </div><!--/.modal-body-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        Close
+                    </button>
+                    <input type="submit" class="btn btn-primary" value="Delete">
+                </div><!--/.modal-footer-->
+            </div><!-- /.modal-content -->
+        </form>
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -1,0 +1,96 @@
+﻿@model IEnumerable<TheBlueSeaResort_v2.Models.Review>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<link href="~/Content/File/StarRating/css/star-rating.css" media="all" rel="stylesheet" type="text/css" />
+<link href="~/Content/File/StarRating/themes/krajee-svg/theme.css" media="all" rel="stylesheet" type="text/css" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.js"></script>
+<script src="~/Content/File/StarRating/js/star-rating.js" type="text/javascript"></script>
+<script src="~/Content/File/StarRating/themes/krajee-svg/theme.js"></script>
+<script src="~/Content/File/StarRating/js/locales/ua.js"></script>
+<link href="~/Content/File/star/SimpleStarRating.css" rel="stylesheet">
+<script src="~/Content/File/star/SimpleStarRating.js" type="text/javascript"></script>
+
+<img src="~/Content/Images/large_1.jpg" style="width: 100%;height: auto;">
+
+<div class="container">
+    <div class="col-md-offset-3">
+        <h1>Comment</h1><br>
+    </div>
+</div>
+@foreach (var item in Model)
+{
+<div class="container">
+        <div class="well col-md-offset-3 col-md-6">
+            <div class="media">
+                <div class="media-body">
+                    <h4 class="media-heading">By @Html.DisplayFor(model => item.C_Name)</h4>
+
+                    <p>
+                        @Html.DisplayFor(model => item.R_Message)
+                    </p>
+                    <ul class="list-inline list-unstyled">
+                        <li><span><i class="glyphicon glyphicon-calendar"></i> @Html.DisplayFor(model => item.R_Time) </span></li>
+                        <li>|</li>
+                        <li>                    
+                            <span class="rating" data-default-rating="@Html.DisplayFor(model => item.R_Rating)" disabled></span>   
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+</div>
+}
+
+
+<!-------   EndComent------->
+<!---Write--->
+
+<div class="container ">
+    <div class="col-md-offset-3 col-md-6">
+        <div class="form-area">
+            <form role="form" action="/Review/CreateMessage" method="post">
+                <br style="clear:both">
+                <h3 style="margin-bottom: 25px; text-align: center;">Share Your Experience</h3>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="name" name="name" placeholder=" Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="serial" name="serial" placeholder=" Serial Number" required>
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" type="textarea" id="message" placeholder="Message" maxlength="800" rows="9" name="message"></textarea>
+                </div>
+                <input id="input-2" name="input-2" value="0" class="rating rating-loading col-md-offset-0 col-md-5" data-size="xs">
+                <button type="submit" id="submit" name="submit" class="btn btn-primary pull-right">Submit Form</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    var ratings = document.getElementsByClassName('rating');
+    for (var i = 0; i < ratings.length; i++) {
+        var r = new SimpleStarRating(ratings[i]);
+
+        ratings[i].addEventListener('rate', function (e) {
+            console.log('Rating: ' + e.detail);
+        });
+    }
+</script>
+<script>
+    $(document).on('ready', function () {
+        $('#input-2').rating({
+            displayOnly: false, step: 0.1
+        });
+    });
+</script>
+
+
+
+
+
+
+

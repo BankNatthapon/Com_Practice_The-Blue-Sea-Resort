@@ -1,0 +1,91 @@
+﻿@model TheBlueSeaResort_v2.Models.Customer
+
+@{
+    ViewBag.Title = "RoomTypeEdit";
+}
+
+<!-- ------------------- Sidebar ------------------- -->
+<div style="margin-top:50px">
+    <div class="w3-sidebar w3-bar-block w3-light-grey w3-card-4 w3-animate-left" style="width:20%">
+        <div class="w3-bar w3-dark-grey">
+            <span class="w3-bar-item w3-padding-24">Content</span>
+        </div>
+        <div class="w3-bar-block ">
+            <button type="button" class="w3-bar-item w3-button w3-border-bottom w3-hover-teal w3-padding-16">
+                @Html.ActionLink("Customer Management", "Index")
+            </button>
+            @if (Session["Status"].ToString() == "admin")
+            {
+                <button type="button" class="w3-bar-item w3-button w3-border-bottom w3-hover-teal w3-padding-16">
+                    @Html.ActionLink("Admin Management", "AdminIndex")
+                </button>
+                <button type="button" class="w3-bar-item w3-button w3-border-bottom w3-hover-teal w3-padding-16">
+                    @Html.ActionLink("Room Management", "RoomTypeIndex")
+                </button>
+            }
+        </div>
+    </div>
+</div>
+<!-- ----------------------------------------------- -->
+<div style="margin-left:20%">
+    <div class="w3-container w3-teal">
+        <h1>Edit Room Type</h1>
+    </div>
+    <div class="w3-container">
+        <h3>แก้ไขชนิดห้อง</h3>
+        <br>
+        @using (Html.BeginForm("RoomTypeEdit", "Admin", FormMethod.Post, new { @class = "form-horizontal panel-body", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label for="file" class="control-label col-md-2">NameRoomType</label>
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.RoomType, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.RoomType, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="file" class="control-label col-md-2">Price</label>
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="file" class="control-label col-md-2">Detail</label>
+                    <div class="col-md-3">
+                        @Html.TextAreaFor(model => model.Type_Detail, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Type_Detail, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="file" class="control-label col-md-2">Picture 1</label>
+                    <div class="col-md-9">
+                        <input type="file" name="file" id="file" style="width: 100%;" /> *จะเปลี่ยนเมื่อมีการเพิ่มรูปภาพเท่านั้น
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="file" class="control-label col-md-2">Picture 2</label>
+                    <div class="col-md-9">
+                        <input type="file" name="file2" id="file2" style="width: 100%;" /> *จะเปลี่ยนเมื่อมีการเพิ่มรูปภาพเท่านั้น
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Submit" class="btn btn-success" />
+                    </div>
+                </div>
+            </div>
+        }
+        <div>
+            @Html.ActionLink("Back to List", "RoomTypeIndex")
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,396 @@
+﻿@model IEnumerable<TheBlueSeaResort_v2.Models.Customer>
+
+@{
+    ViewBag.Title = "Index";
+}
+<link rel="stylesheet" href="~/Content/datatable/css/dataTables.bootstrap4.css" charset="utf-8">
+
+<script type="text/javascript" src="~/Content/datatable/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="~/Content/datatable/js/dataTables.bootstrap.js"></script>
+
+<script src="~/Content/File/datepicker/js/bootstrap-datepicker.js"></script>
+<link href="~/Content/File/datepicker/css/bootstrap-datepicker3.css" rel="stylesheet" />
+
+<script>
+    $(document).ready(function () {
+        $('.date').datepicker({
+            format: "dd/mm/yyyy",
+            todayBtn: "linked",
+            startDate: "now",
+            autoclose: true,
+            todayHighlight: true
+        });
+        $('.datatable').dataTable({
+
+        });
+        $('.edit-customer').click(function () {
+            //get data from edit
+            var cusid = $(this).attr('data-cusid');
+            var scode = $(this).attr('data-scode');
+            var name = $(this).attr('data-name');
+            var email = $(this).attr('data-email');
+            var ckin = $(this).attr('data-ckin');
+            var ckout = $(this).attr('data-ckout');
+            var phone = $(this).attr('data-phone');
+            //set value to modal
+            $('#cusid').val(cusid);
+            $('#name').val(name);
+            $('#scode').val(scode);
+            $('#email').val(email);
+            $('#ckin').val(ckin);
+            $('#ckout').val(ckout);
+            $('#phone').val(phone);
+            //open modal
+            $('#formEdit').modal('show')
+        });
+
+        $('.detail-customer').click(function () {
+            //get data from delete
+            var cusid = $(this).attr('data-cusid');
+            var scode = $(this).attr('data-scode');
+            var name = $(this).attr('data-name');
+            var email = $(this).attr('data-email');
+            var ckin = $(this).attr('data-ckin');
+            var ckout = $(this).attr('data-ckout');
+            var phone = $(this).attr('data-phone');
+            //set value to modal
+            $('#cusid2').html(cusid);
+            $('#name2').html(name);
+            $('#scode2').html(scode);
+            $('#email2').html(email);
+            $('#ckin2').html(ckin);
+            $('#ckout2').html(ckout);
+            $('#phone2').html(phone);
+            //open modal
+            $('#formDetail').modal('show')
+        });
+
+        $('.delete-customer').click(function () {
+            //get data from delete
+            var cusid = $(this).attr('data-cusid');
+            var scode = $(this).attr('data-scode');
+            var name = $(this).attr('data-name');
+            var email = $(this).attr('data-email');
+            var ckin = $(this).attr('data-ckin');
+            var ckout = $(this).attr('data-ckout');
+            var phone = $(this).attr('data-phone');
+            //set value to modal
+            $('#cusid3').val(cusid);
+            $('#cusid1').html(cusid);
+            $('#name3').html(name);
+            $('#scode3').html(scode);
+            $('#email3').html(email);
+            $('#ckin3').html(ckin);
+            $('#ckout3').html(ckout);
+            $('#phone3').html(phone);
+            //open modal
+            $('#formDelete').modal('show')
+        });
+    });
+</script>
+
+<!-- ------------------- Sidebar ------------------- -->
+<div style="margin-top:50px">
+    <div class="w3-sidebar w3-bar-block w3-light-grey w3-card-4 w3-animate-left" style="width:20%">
+        <div class="w3-bar w3-dark-grey">
+            <span class="w3-bar-item w3-padding-24">Content</span>
+        </div>
+        <div class="w3-bar-block ">
+            <button type="button" class="w3-bar-item w3-button w3-border-bottom w3-hover-teal w3-padding-16">
+                @Html.ActionLink("Customer Management", "Index")
+            </button>
+            @if (Session["Status"].ToString() == "admin")
+            {
+                <button type="button" class="w3-bar-item w3-button w3-border-bottom w3-hover-teal w3-padding-16">
+                    @Html.ActionLink("Admin Management", "AdminIndex")
+                </button>
+                <button type="button" class="w3-bar-item w3-button w3-border-bottom w3-hover-teal w3-padding-16">
+                    @Html.ActionLink("Room Management", "RoomTypeIndex")
+                </button>
+            }
+        </div>
+    </div>
+</div>
+    <!-- ----------------------------------------------- -->
+    <div style="margin-left:20%">
+        <div class="w3-container w3-teal">
+            <h1>Customer Managemant</h1>
+        </div>
+        <div class="w3-container">
+            <h4>จัดการรายการจอง</h4>
+            <div>
+                <button type="button" class="btn btn-warning btn-sm col-md-offset-11">
+                    @Html.ActionLink("Create List", "Create")
+                </button>
+            </div>
+            <br>
+            <table class="table datatable">
+                <thead>
+                    <tr class="w3-light-grey">
+                        <th>
+                            @Html.DisplayNameFor(model => model.SerialCode)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Phone)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CheckIn)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CheckOut)
+                        </th>
+                        <th>
+                            RNum
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.RoomType)
+                        </th>
+                        <th>Editor</th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SerialCode)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Phone)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CheckIn)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CheckOut)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RoomNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RoomType)
+                        </td>
+                        <td>
+                            <div class="dropdown">
+                                <button type="button" name="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-cog"></i>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="#" class="edit-customer"
+                                             data-cusid="@Html.DisplayFor(modelItem => item.Cus_Id)"
+                                             data-name="@Html.DisplayFor(modelItem => item.Name)"
+                                             data-scode="@Html.DisplayFor(modelItem => item.SerialCode)"
+                                             data-ckin="@Html.DisplayFor(modelItem => item.CheckIn)"
+                                             data-ckout="@Html.DisplayFor(modelItem => item.CheckOut)"
+                                             data-email="@Html.DisplayFor(modalItem => item.Email)"
+                                             data-phone="@Html.DisplayFor(modalItem => item.Phone)"
+                                           >Edit</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="detail-customer"
+                                             data-cusid="@Html.DisplayFor(modelItem => item.Cus_Id)"
+                                             data-name="@Html.DisplayFor(modelItem => item.Name)"
+                                             data-scode="@Html.DisplayFor(modelItem => item.SerialCode)"
+                                             data-ckin="@Html.DisplayFor(modelItem => item.CheckIn)"
+                                             data-ckout="@Html.DisplayFor(modelItem => item.CheckOut)"
+                                             data-email="@Html.DisplayFor(modalItem => item.Email)"
+                                             data-phone="@Html.DisplayFor(modalItem => item.Phone)"
+                                           >Details</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="delete-customer"
+                                             data-cusid="@Html.DisplayFor(modelItem => item.Cus_Id)"
+                                             data-name="@Html.DisplayFor(modelItem => item.Name)"
+                                             data-scode="@Html.DisplayFor(modelItem => item.SerialCode)"
+                                             data-ckin="@Html.DisplayFor(modelItem => item.CheckIn)"
+                                             data-ckout="@Html.DisplayFor(modelItem => item.CheckOut)"
+                                             data-email="@Html.DisplayFor(modalItem => item.Email)"
+                                             data-phone="@Html.DisplayFor(modalItem => item.Phone)"
+                                           >Delete</a>
+                                    </li>
+                                </ul>
+                            </div><!-- /.dropdown -->
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+<!-- Modal Zone -->
+<div class="modal fade" id="formEdit">
+    <div class="modal-dialog">
+        <form action="/Admin/Edit" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Edit</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- Hidden Zone -->
+                    <input type="hidden" name="cusid" id="cusid" value="">
+                    <div class="form-group ">
+                        <label for="scode" class="control-label">SerialCode</label>
+                        <input type="text" id="scode" name="scode" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name" class="control-label">Name</label>
+                        <input type="text" id="name" name="name" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="control-label">Email</label>
+                        <input type="email" id="email" name="email" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone" class="control-label">Phone</label>
+                        <input type="text" id="phone" name="phone" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ckin" class="control-label">Check In</label>
+                        <input type="text" id="ckin" name="ckin" class="date form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ckout" class="control-label">Check Out</label>
+                        <input type="text" id="ckout" name="ckout" class="date form-control">
+                    </div>
+
+
+                </div><!--/.modal-body-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        Close
+                    </button>
+                    <input type="submit" class="btn btn-primary" value="Save">
+                </div><!--/.modal-footer-->
+            </div><!-- /.modal-content -->
+        </form>
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!--Details-->
+<!-- Modal Zone -->
+<div class="modal fade" id="formDetail">
+    <div class="modal-dialog">
+        
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Details</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- Hidden Zone -->
+                    <div class="form-group ">
+                        <label for="scode" class="control-label">SerialCode : </label>
+                        <label id="scode2" name="scode2" class="control-label"></label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name" class="control-label">Name : </label>
+                        <label id="name2" name="name2" class="control-label"></label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="control-label">Email : </label>
+                        <label id="email2" name="email2" class="control-label"></label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone" class="control-label">Phone : </label>
+                        <label id="phone2" name="phone2" class="control-label"></label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ckin" class="control-label">Check In : </label>
+                        <label id="ckin2" name="ckin2" class="control-label"></label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ckout" class="control-label">Check Out : </label>
+                        <label id="ckout2" name="ckout2" class="control-label"></label>
+                    </div>
+
+
+                </div><!--/.modal-body-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        Close
+                    </button>
+                    
+                </div><!--/.modal-footer-->
+            </div><!-- /.modal-content -->
+        
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!--Delete-->
+<!-- Modal Zone -->
+<div class="modal fade" id="formDelete">
+    <div class="modal-dialog">
+        <form action="/Admin/Delete" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Delete</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- Hidden Zone -->
+                    <input type="hidden" name="cusid3" id="cusid3" value="">
+                    <div class="form-group ">
+                        <label for="scode" class="control-label">SerialCode : </label>
+                        <label id="scode3" name="scode3" class="control-label"></label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name" class="control-label">Name : </label>
+                        <label id="name3" name="name3" class="control-label"></label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="control-label">Email : </label>
+                        <label id="email3" name="email3" class="control-label"></label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone" class="control-label">Phone : </label>
+                        <label id="phone3" name="phone3" class="control-label"></label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ckin" class="control-label">Check In : </label>
+                        <label id="ckin3" name="ckin3" class="control-label"></label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ckout" class="control-label">Check Out : </label>
+                        <label id="ckout3" name="ckout3" class="control-label"></label>
+                    </div>
+
+
+                </div><!--/.modal-body-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        Close
+                    </button>
+                    <input type="submit" class="btn btn-primary" value="Delete">
+                </div><!--/.modal-footer-->
+            </div><!-- /.modal-content -->
+        </form>
+</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

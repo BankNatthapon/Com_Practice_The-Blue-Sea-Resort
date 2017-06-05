@@ -1,0 +1,133 @@
+﻿@model TheBlueSeaResort_v2.Models.Customer
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<!-- ------------------- Sidebar ------------------- -->
+<div style="margin-top:50px">
+    <div class="w3-sidebar w3-bar-block w3-light-grey w3-card-4 w3-animate-left" style="width:20%">
+        <div class="w3-bar w3-dark-grey">
+            <span class="w3-bar-item w3-padding-24">Content</span>
+        </div>
+        <div class="w3-bar-block ">
+            <button type="button" class="w3-bar-item w3-button w3-border-bottom w3-hover-teal w3-padding-16">
+                @Html.ActionLink("Customer Management", "Index")
+            </button>
+            @if (Session["Status"].ToString() == "admin")
+            {
+                <button type="button" class="w3-bar-item w3-button w3-border-bottom w3-hover-teal w3-padding-16">
+                    @Html.ActionLink("Admin Management", "AdminIndex")
+                </button>
+                <button type="button" class="w3-bar-item w3-button w3-border-bottom w3-hover-teal w3-padding-16">
+                    @Html.ActionLink("Room Management", "RoomTypeIndex")
+                </button>
+            }
+        </div>
+    </div>
+</div>
+<!-- ----------------------------------------------- -->
+<div style="margin-left:20%">
+    <div class="w3-container w3-teal">
+        <h1>Delete Customer</h1>
+    </div>
+    <div class="w3-container">
+        <div>
+            <h4>ลบรายการ</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.SerialCode)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.SerialCode)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Phone)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Phone)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CheckIn)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CheckIn)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CheckOut)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CheckOut)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.RoomType)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.RoomType)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.RoomNumber)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.RoomNumber)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Phone)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Phone)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+
+            </dl>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    <input type="submit" value="Delete" class="btn btn-default" /> |
+                    @Html.ActionLink("Back to List", "Index")
+                    @Html.HiddenFor(model => model.Cus_Id)
+                </div>
+            }
+        </div>
+    </div>
+</div>

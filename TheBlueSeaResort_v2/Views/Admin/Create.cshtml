@@ -1,0 +1,123 @@
+﻿@model IEnumerable<TheBlueSeaResort_v2.Models.Customer>
+
+<script src="~/Content/File/datepicker/js/bootstrap-datepicker.js"></script>
+<link href="~/Content/File/datepicker/css/bootstrap-datepicker3.css" rel="stylesheet" />
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.input-group.date').datepicker({
+            format: "dd/mm/yyyy",
+            todayBtn: "linked",
+            startDate: "now",
+            autoclose: true,
+            todayHighlight: true
+        });
+    });
+</script>
+
+<!-- ------------------- Sidebar ------------------- -->
+<div style="margin-top:50px">
+    <div class="w3-sidebar w3-bar-block w3-light-grey w3-card-4 w3-animate-left" style="width:20%">
+        <div class="w3-bar w3-dark-grey">
+            <span class="w3-bar-item w3-padding-24">Content</span>
+        </div>
+        <div class="w3-bar-block ">
+            <button type="button" class="w3-bar-item w3-button w3-border-bottom w3-hover-teal w3-padding-16">
+                @Html.ActionLink("Customer Management", "Index")
+            </button>
+            @if (Session["Status"].ToString() == "admin")
+            {
+                <button type="button" class="w3-bar-item w3-button w3-border-bottom w3-hover-teal w3-padding-16">
+                    @Html.ActionLink("Admin Management", "AdminIndex")
+                </button>
+                <button type="button" class="w3-bar-item w3-button w3-border-bottom w3-hover-teal w3-padding-16">
+                    @Html.ActionLink("Room Management", "RoomTypeIndex")
+                </button>
+            }
+        </div>
+    </div>
+</div>
+<!-- ----------------------------------------------- -->
+<div style="margin-left:20%">
+    <div class="w3-container w3-teal">
+        <h1>Create Reservation</h1>
+    </div>
+    <div class="w3-container">
+        @using (Html.BeginForm("Create", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+        {
+            @Html.AntiForgeryToken()
+
+                <h4>สร้างรายการการจอง</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="email">Name :</label>
+                    <div class="col-md-3">
+                       @Html.TextBox("name", "", new { @class = "form-control", @placeholder = "Name" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="email">Phone :</label>
+                    <div class="col-md-3">
+                        @Html.TextBox("phone", "", new { @class = "form-control", @placeholder = "Phone" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="email">Email :</label>
+                    <div class="col-md-3">
+                       @Html.TextBox("email", "", new { @class = "form-control", @placeholder = "Email" ,@type = "email"})
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="email">Check In :</label>
+                    <div class="col-md-3 input-group date form-group">
+                        @Html.TextBox("checkin", "", new { @class = "input-group date form-control", @placeholder = "dd/mm/yyyy" })<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="email">Check Out :</label>
+                    <div class="col-md-3 input-group date form-group">
+                        @Html.TextBox("checkout", "", new { @class = "form-control", @placeholder = "dd/mm/yyyy" })<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="email">Total Room :</label>
+                    <div class="col-md-3">
+                        @Html.TextBox("totalroom", "", new { @class = "form-control", @placeholder = "Room Amount" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="email">Room Type :</label>
+                    <div class="col-md-3">
+                        <select class="form-control" id="RoomType" name="RoomType">
+                            @foreach (var item in Model)
+                            {
+                                <option value=@item.Type_Id.ToString()>@item.RoomType</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-10" style="margin-top:10px;margin-left:100px">
+                        @Html.CheckBox("agree", false) ตรวจสอบการสร้างรายการจองอีกครั้ง และทำการยืนยัน
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                        
+                    </div>
+                </div>
+        }
+
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    </div>
+</div>

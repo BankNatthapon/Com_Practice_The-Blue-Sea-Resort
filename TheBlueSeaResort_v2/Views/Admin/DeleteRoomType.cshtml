@@ -1,0 +1,93 @@
+﻿@model TheBlueSeaResort_v2.Models.Customer
+
+@{
+    ViewBag.Title = "DeleteRoomType";
+}
+
+<div style="margin-top:50px">
+    <div class="w3-sidebar w3-bar-block w3-light-grey w3-card-4 w3-animate-left" style="width:20%">
+        <div class="w3-bar w3-dark-grey">
+            <span class="w3-bar-item w3-padding-24">Content</span>
+        </div>
+        <div class="w3-bar-block ">
+            <button type="button" class="w3-bar-item w3-button w3-border-bottom w3-hover-teal w3-padding-16">
+                @Html.ActionLink("Customer Management", "Index")
+            </button>
+            @if (Session["Status"].ToString() == "admin")
+            {
+                <button type="button" class="w3-bar-item w3-button w3-border-bottom w3-hover-teal w3-padding-16">
+                    @Html.ActionLink("Admin Management", "AdminIndex")
+                </button>
+            }
+        </div>
+    </div>
+</div>
+<!-- ----------------------------------------------- -->
+<div style="margin-left:20%">
+    <div class="w3-container w3-teal">
+        <h1>Delete Room Type</h1>
+    </div>
+    <div class="w3-container">
+        <div>
+            <h4>ลบชนิดห้อง</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    Room Type
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.RoomType)
+                </dd>
+
+                <dt>
+                    Price
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Price)
+                </dd>
+
+                <dt>
+                    Detail
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Type_Detail)
+                </dd>
+
+                <dt>
+                    Picture
+                </dt>
+
+                <dd>
+                    <div class="col-xs-12 col-sm-3 col-md-3">
+                        <img src="@Html.DisplayFor(model => model.Type_Pic)" class=" img-box img-thumbnail">
+                    </div>
+                </dd>
+
+                <dt>
+                    Room Amount
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Room_Amount)
+                </dd>
+
+
+
+            </dl>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    <input type="submit" value="Delete" class="btn btn-default" /> |
+                    @Html.ActionLink("Back to List", "RoomTypeIndex")
+                    @Html.HiddenFor(model => model.Type_Id)
+                </div>
+            }
+        </div>
+    </div>
+</div>

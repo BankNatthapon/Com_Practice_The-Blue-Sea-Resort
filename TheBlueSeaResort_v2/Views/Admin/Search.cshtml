@@ -1,0 +1,129 @@
+﻿@model IEnumerable<TheBlueSeaResort_v2.Models.Customer>
+
+@{
+    ViewBag.Title = "Search";
+}
+
+<!-- ------------------- Sidebar ------------------- -->
+<div style="margin-top:50px">
+    <div class="w3-sidebar w3-bar-block w3-light-grey w3-card-4 w3-animate-left" style="width:20%">
+        <div class="w3-bar w3-dark-grey">
+            <span class="w3-bar-item w3-padding-24">Content</span>
+        </div>
+        <div class="w3-bar-block ">
+            <button type="button" class="w3-bar-item w3-button w3-border-bottom w3-hover-teal w3-padding-16">
+                @Html.ActionLink("Customer Management", "Index")
+            </button>
+            @if (Session["Status"].ToString() == "admin")
+            {
+                <button type="button" class="w3-bar-item w3-button w3-border-bottom w3-hover-teal w3-padding-16">
+                    @Html.ActionLink("Admin Management", "AdminIndex")
+                </button>
+                <button type="button" class="w3-bar-item w3-button w3-border-bottom w3-hover-teal w3-padding-16">
+                    @Html.ActionLink("Room Management", "RoomTypeIndex")
+                </button>
+            }
+        </div>
+    </div>
+</div>
+<!-- ----------------------------------------------- -->
+<div style="margin-left:20%">
+    <div class="w3-container w3-teal">
+        <h1>Customer Managemant</h1>
+    </div>
+    <div class="w3-container">
+        <h4>จัดการรายการจอง</h4>
+@using (Html.BeginForm("Search", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+{
+        <div class="form-inline">
+            <div class="form-group col-md-4">
+                <label for="ex3">Serial Code</label>
+                @Html.TextBox("SerialCode", "", new { @class = "form-control", @placeholder = "Press 6 digit" })
+            </div>
+            <div class="form-group">
+                <label for="ex3">Name</label>
+                @Html.TextBox("Name", "", new { @class = "form-control", @placeholder = "Search name" })
+            </div>
+            <div class="form-group" style="margin-left:2%">
+                <button type="submit" value="Submit" class="btn btn-success btn-sm">Enter</button>
+            </div>
+
+            <div class="form-group" style="margin-left:2%">
+                <a href="/Admin/Index">Reset</a>
+            </div>
+        </div>
+}
+        <div>
+            <button type="button" class="btn btn-warning btn-sm col-md-offset-11">
+                @Html.ActionLink("Create List", "Create")
+            </button>
+        </div>
+        <br>
+        <table class="w3-table-all w3-hoverable">
+            <thead>
+                <tr class="w3-light-grey">
+                    <th>
+                        @Html.DisplayNameFor(model => model.SerialCode)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Phone)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CheckIn)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CheckOut)
+                    </th>
+                    <th>
+                        RNum
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RoomType)
+                    </th>
+                    <th>Editor</th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SerialCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Phone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CheckIn)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CheckOut)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RoomNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RoomType)
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-primary">
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Cus_Id })
+                        </button>
+                        <button type="button" class="btn btn-info">
+                            @Html.ActionLink("Details", "Details", new { id = item.Cus_Id })
+                        </button>
+                        <button type="button" class="btn btn-danger">
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Cus_Id })
+                        </button>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+

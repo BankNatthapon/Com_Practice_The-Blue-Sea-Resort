@@ -1,0 +1,97 @@
+﻿@model IEnumerable<TheBlueSeaResort_v2.Models.Customer>
+
+@{
+    ViewBag.Title = "SearchRoom";
+}
+
+<script type="text/javascript">
+    function submitForm(action) {
+        document.getElementById('form1').action = action;
+    }
+</script>
+
+<!-- ------------------- Sidebar ------------------- -->
+<div style="margin-top:50px">
+    <div class="w3-sidebar w3-bar-block w3-light-grey w3-card-4 w3-animate-left" style="width:20%">
+        <div class="w3-bar w3-dark-grey">
+            <span class="w3-bar-item w3-padding-24">Content</span>
+        </div>
+        <div class="w3-bar-block ">
+            <button type="button" class="w3-bar-item w3-button w3-border-bottom w3-hover-teal w3-padding-16">
+                @Html.ActionLink("Customer Management", "Index")
+            </button>
+            @if (Session["Status"].ToString() == "admin")
+            {
+                <button type="button" class="w3-bar-item w3-button w3-border-bottom w3-hover-teal w3-padding-16">
+                    @Html.ActionLink("Admin Management", "AdminIndex")
+                </button>
+                <button type="button" class="w3-bar-item w3-button w3-border-bottom w3-hover-teal w3-padding-16">
+                    @Html.ActionLink("Room Management", "RoomTypeIndex")
+                </button>
+            }
+        </div>
+    </div>
+</div>
+<!-- ----------------------------------------------- -->
+<div style="margin-left:20%">
+    <div class="w3-container w3-teal">
+        <h1>Room Managemant</h1>
+    </div>
+    <div class="w3-container">
+        <h4>ระบบจัดการห้อง</h4>
+        <form class="form-inline" id="form1" name="form1" method="post">
+            <div class="form-group col-md-4">
+                <label for="ex3">Room Name</label>
+                @Html.TextBox("RoomName", "", new { @class = "form-control", @placeholder = "Room Name" })
+            </div>
+
+            <div class="form-group">
+                <button type="submit" value="Add" class="btn btn-warning btn-sm" onclick="submitForm('/Admin/CreateRoom')">Add Room</button>
+            </div>
+            <div class="form-group">
+                <button type="submit" value="Search" class="btn btn-success btn-sm" onclick="submitForm('/Admin/SearchRoom')">Search</button>
+            </div>
+            <div class="form-group" style="margin-left:2%">
+                <a href="/Admin/RoomManagement_2">Reset</a>
+            </div>
+        </form>
+        <br>
+        <table class="w3-table-all w3-hoverable">
+            <thead>
+                <tr class="w3-light-grey">
+                    <th>
+                        Room Number
+                    </th>
+                    <th>
+                        Type Room
+                    </th>
+                    <th>
+                        Editor
+                    </th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RoomNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RoomType)
+                    </td>
+
+                    <td>
+                        <button type="button" class="btn btn-primary">
+                            @Html.ActionLink("Edit", "EditRoom", new { id = item.Room_Id })
+                        </button>
+
+                        <button type="button" class="btn btn-danger">
+                            @Html.ActionLink("Delete", "DeleteRoom", new { id = item.Room_Id })
+                        </button>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>

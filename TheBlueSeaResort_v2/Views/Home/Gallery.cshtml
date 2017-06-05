@@ -1,0 +1,112 @@
+﻿@model TheBlueSeaResort_v2.Models.ImageGallery
+@{
+    ViewBag.Title = "Gallery";
+}
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script src="~/Scripts/jquery.mousewheel-3.0.6.pack.js"></script>
+<script src="~/Scripts/jquery.fancybox.js"></script>
+<link href="~/Content/jquery.fancybox.css" rel="stylesheet" media="screen" />
+<link href="~/Scripts/jquery.fancybox.css" rel="stylesheet" />
+<!-- Carousel -->
+<div class="carousel fade-carousel slide" data-ride="carousel" data-interval="4000" id="bs-carousel">
+    <!-- Overlay -->
+    <div class="overlay"></div>
+
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li data-target="#bs-carousel" data-slide-to="0" class="active"></li>
+        <li data-target="#bs-carousel" data-slide-to="1"></li>
+        <li data-target="#bs-carousel" data-slide-to="2"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+        <div class="item slides active">
+            <div class="slide-1"></div>
+            <div class="hero">
+                <hgroup>
+                    <h1 style="font-family: 'Tauri', sans-serif; font-size:50px">The Blue Sea Resort</h1>
+                    <h3 style="font-family: 'supermarketregular'; font-size:20px">the most beautiful sea in the word</h3>
+                </hgroup>
+                <button class="btn btn-hero btn-lg" role="button">view details</button>
+            </div>
+        </div>
+        <div class="item slides">
+            <div class="slide-2"></div>
+            <div class="hero">
+                <hgroup>
+                    <h1 style="font-family: 'Tauri', sans-serif; font-size:50px">restaurant</h1>
+                    <h3 style="font-family: 'supermarketregular'; font-size:20px">the atmosphere experience on beach</h3>
+                </hgroup>
+                <button class="btn btn-hero btn-lg" role="button">view details</button>
+            </div>
+        </div>
+        <div class="item slides">
+            <div class="slide-3"></div>
+            <div class="hero">
+                <hgroup>
+                    <h1 style="font-family: 'Tauri', sans-serif; font-size:50px">room</h1>
+                    <h3 style="font-family: 'supermarketregular'; font-size:20px">sleep under the sea</h3>
+                </hgroup>
+                <button class="btn btn-hero btn-lg" role="button">view details</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Slide-->
+<!-- Carousel -->
+
+<div class="container" style="text-align:center"><h3 style="font-family: 'supermarketregular'; font-size:50px;color:aqua">Gallery</h3></div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Show").fancybox({
+            openEffect: "none",
+            closeEffect:"none",
+        });
+    });
+</script>
+
+
+<style type="text/css">
+    .imgBox {
+        width: 200px;
+        height: 200px;
+        opacity: 1.0;
+        filter: alpha(opacity=100);
+    }
+
+        .imgBox:hover {
+            filter:none;
+            -moz-box-shadow: 0 0 10px #ccc;
+            -webkit-box-shadow: 0 0 10px #ccc;
+            box-shadow: 0 0 10px #ccc;
+            opacity: 0.4;
+            filter: alpha(opacity=40);
+        }
+</style>
+<div class="container" style="height:600px;">
+
+    @if (Model.ImageList.Count > 0)
+    {
+        <div class="row-fluid">
+            <div class="span2">
+                <div class="item">
+                    @foreach (var image in Model.ImageList)
+                    {
+                        <div style="margin:10px; float:left; height:200px; overflow:hidden; width:200px;">
+                            <a id="Show" class="fancybox-button" data-rel="fancybox-button"
+                               title="Photo" href="@Url.Content("~/Content/Images/Gallery/"+ image)">
+                                <div class="zoom">
+                                    <img src="@Url.Content("~/Content/Images/Gallery/" + image)" class="imgBox" style="filter:none" />
+                                    <div class="zoom-icon"></div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+

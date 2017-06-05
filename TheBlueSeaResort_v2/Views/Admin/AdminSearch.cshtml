@@ -1,0 +1,117 @@
+﻿@model IEnumerable<TheBlueSeaResort_v2.Models.Admin>
+
+@{
+    ViewBag.Title = "AdminSearch";
+}
+
+<!-- ------------------- Sidebar ------------------- -->
+<div style="margin-top:50px">
+    <div class="w3-sidebar w3-bar-block w3-light-grey w3-card-4 w3-animate-left" style="width:20%">
+        <div class="w3-bar w3-dark-grey">
+            <span class="w3-bar-item w3-padding-24">Content</span>
+        </div>
+        <div class="w3-bar-block ">
+            <button type="button" class="w3-bar-item w3-button w3-border-bottom w3-hover-teal w3-padding-16">
+                @Html.ActionLink("Customer Management", "Index")
+            </button>
+            @if (Session["Status"].ToString() == "admin")
+            {
+                <button type="button" class="w3-bar-item w3-button w3-border-bottom w3-hover-teal w3-padding-16">
+                    @Html.ActionLink("Admin Management", "AdminIndex")
+                </button>
+                <button type="button" class="w3-bar-item w3-button w3-border-bottom w3-hover-teal w3-padding-16">
+                    @Html.ActionLink("Room Management", "RoomTypeIndex")
+                </button>
+            }
+        </div>
+    </div>
+</div>
+<!-- ----------------------------------------------- -->
+<div style="margin-left:20%">
+    <div class="w3-container w3-teal">
+        <h1>Admin Managemant</h1>
+    </div>
+    <div class="w3-container">
+        <h4>ระบบจัดการไอดีพนักงาน</h4>
+        @using (Html.BeginForm("AdminSearch", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+            {
+            <div class="form-inline">
+                <div class="form-group col-md-4">
+                    <label for="ex3">Admin ID</label>
+                    @Html.TextBox("AdminID", "", new { @class = "form-control", @placeholder = "Admin ID" })
+                </div>
+                <div class="form-group">
+                    <label for="ex3">First Name</label>
+                    @Html.TextBox("FirstName", "", new { @class = "form-control", @placeholder = "Firstname Search" })
+                </div>
+                <div class="form-group" style="margin-left:2%">
+                    <button type="submit" value="Submit" class="btn btn-success btn-sm">Enter</button>
+                </div>
+                <div class="form-group" style="margin-left:2%">
+                    <a href="/Admin/AdminIndex">Reset</a>
+                </div>
+            </div>
+        }
+        <br>
+        <table class="w3-table-all w3-hoverable">
+            <thead>
+                <tr class="w3-light-grey">
+                    <th>
+                        @Html.DisplayNameFor(model => model.AdminID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Password)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LastName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LastLogin)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Status)
+                    </th>
+                    <th>Editor</th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AdminID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Password)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastLogin)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-primary">
+                            @Html.ActionLink("Edit", "AdminEdit", new { id = item.AdminID, id_2 = item.FirstName })
+                        </button>
+                        <button type="button" class="btn btn-info">
+                            @Html.ActionLink("Details", "AdminDetails", new { id = item.AdminID, id_2 = item.FirstName })
+                        </button>
+                        <button type="button" class="btn btn-danger">
+                            @Html.ActionLink("Delete", "AdminDelete", new { id = item.AdminID, id_2 = item.FirstName })
+                        </button>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>

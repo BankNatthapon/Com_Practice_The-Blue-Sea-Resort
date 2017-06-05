@@ -1,0 +1,19 @@
+﻿@{
+    var controller = HttpContext.Current.Request.RequestContext.RouteData.Values["Controller"].ToString();
+
+    string layout = "";
+    if (controller == "Admin" || controller == "Login" || controller == "login")
+    {
+        layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else if (controller == "Booking" || controller == "Review")
+    {
+        layout = "~/Views/Shared/_BookingLayout.cshtml";
+    }
+    else
+    {
+        layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+    Layout = layout;
+}
