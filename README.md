@@ -9,25 +9,25 @@ public ActionResult Index()
    {
      ViewBag.Alert = null;
      string pConStr, sql;     
-            pConStr=WebConfigurationManager.ConnectionStrings["DB"].ToString(); // การเชื่อมต่อ database
-            DataTable dt = new DataTable();// เอาคลาส table มาประกาศเป็นชื่อ dt
-            SqlCommand com = new SqlCommand();// เอาไว้ยัด sqlcommand ไว้ในนี้
+            pConStr=WebConfigurationManager.ConnectionStrings["DB"].ToString();
+            DataTable dt = new DataTable();
+            SqlCommand com = new SqlCommand();
             com.CommandType = CommandType.Text;
             sql = "SELECT Booking.Bk_SerialCode,Customer.Cus_Id,Customer.Name,Customer.Tel as Phone,Customer.Email,CONVERT(varchar(11),Booking.Bk_Check_In,103) as CheckIn,CONVERT(varchar(11),Booking.Bk_Check_Out,103) as CheckOut,Booking.Bk_Night as Night,Booking.Bk_Total_Price as Price,Booking.Bk_Total_Room as TotalRoom,RoomType.Type_Name,Room.Room_Number FROM Customer";
             sql = sql + " INNER JOIN Booking ON Customer.Cus_Id = Booking.Cus_Id";
             sql = sql + " INNER JOIN Room ON Booking.Room_Id = Room.Room_Id";
             sql = sql + " INNER JOIN RoomType ON Room.Type_Id = RoomType.Type_Id";
             com.CommandText = sql;
-            SqlDataReader dr; // เตรียมรับผลจาก Data
-            SqlConnection con = new SqlConnection(pConStr); // เตรียมเชื่อมต่อ
-            com.CommandTimeout = 60; // กำหนดเวลาที่จะ timeout นั่นคือ 60
+            SqlDataReader dr;
+            SqlConnection con = new SqlConnection(pConStr);
+            com.CommandTimeout = 60;
             com.Connection = con;
             con.Open();
             dr = com.ExecuteReader();
             dt.Load(dr);
             con.Close();
 
-            var model = new List<Customer>(); // สร้าง model ให้รับเป็น list
+            var model = new List<Customer>();
             foreach (DataRow drw in dt.Rows)
             {
                 var u = new Customer();
@@ -40,7 +40,7 @@ public ActionResult Index()
                 u.CheckOut = drw["CheckOut"].ToString();
                 u.RoomType = drw["Type_Name"].ToString();
                 u.SerialCode = drw["Bk_SerialCode"].ToString();
-                model.Add(u); // ยัดข้อมูลของ u เข้าไปใน model เรื่ยๆ จนกลายเป็น list
+                model.Add(u);
             }
             return View(model);
         }
